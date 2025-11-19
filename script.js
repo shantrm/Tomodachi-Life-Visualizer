@@ -1,3 +1,15 @@
+// Helper function to get base path (works for both local and GitHub Pages)
+function getBasePath() {
+    // Get the pathname (e.g., "/Tomodachi-Life-Visualizer/" or "/" or "/index.html")
+    const pathname = window.location.pathname;
+    // Remove filename and trailing slash, keep only the directory path
+    // For GitHub Pages: "/Tomodachi-Life-Visualizer/" -> "/Tomodachi-Life-Visualizer"
+    // For local root: "/" -> ""
+    // For local with index.html: "/index.html" -> ""
+    const base = pathname.replace(/\/[^\/]*$/, '').replace(/\/$/, '');
+    return base || '';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanels = document.querySelectorAll('.tab-panel');
@@ -42,7 +54,8 @@ document.addEventListener('DOMContentLoaded', function () {
 async function loadMiis() {
     try {
         console.log('Loading miis...');
-        const response = await fetch('extracted_miis/_summary.json');
+        const basePath = getBasePath();
+        const response = await fetch(`${basePath}/extracted_miis/_summary.json`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -70,7 +83,8 @@ async function loadMiis() {
 
             // Get folder name from filename
             const folderName = mii.filename.split('/')[0];
-            const imagePath = `extracted_miis/${folderName}/face.png`;
+            const basePath = getBasePath();
+            const imagePath = `${basePath}/extracted_miis/${folderName}/face.png`;
 
             miiBox.innerHTML = `
                 <img src="${imagePath}" alt="${mii.nickname}" class="mii-image">
@@ -324,14 +338,15 @@ function getPersonalityDescriptions(personalityType) {
 
 async function showMiiDetail(mii) {
     try {
-        const response = await fetch(`extracted_miis/${mii.filename}`);
+        const basePath = getBasePath();
+        const response = await fetch(`${basePath}/extracted_miis/${mii.filename}`);
         const miiData = await response.json();
         const detailContent = document.getElementById('mii-detail-content');
         const modal = document.getElementById('mii-detail-modal');
 
         const folderName = mii.filename.split('/')[0];
-        const faceImagePath = `extracted_miis/${folderName}/face.png`;
-        const bodyImagePath = `extracted_miis/${folderName}/body.png`;
+        const faceImagePath = `${basePath}/extracted_miis/${folderName}/face.png`;
+        const bodyImagePath = `${basePath}/extracted_miis/${folderName}/body.png`;
 
         const personalityInfo = getPersonalityDescriptions(miiData.personality.type);
 
@@ -428,7 +443,8 @@ async function loadChordDiagram() {
 
     try {
         // Load summary data
-        const summaryResponse = await fetch('extracted_miis/_summary.json');
+        const basePath = getBasePath();
+        const summaryResponse = await fetch(`${basePath}/extracted_miis/_summary.json`);
         if (!summaryResponse.ok) throw new Error(`HTTP error! status: ${summaryResponse.status}`);
         const summaryData = await summaryResponse.json();
 
@@ -445,7 +461,7 @@ async function loadChordDiagram() {
         allMiisData = [];
         for (const mii of miisArray) {
             try {
-                const miiResponse = await fetch(`extracted_miis/${mii.filename}`);
+                const miiResponse = await fetch(`${basePath}/extracted_miis/${mii.filename}`);
                 if (miiResponse.ok) {
                     const miiData = await miiResponse.json();
                     allMiisData.push({
