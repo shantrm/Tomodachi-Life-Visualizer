@@ -1,0 +1,346 @@
+{
+  "region": "EU",
+  "save_file_path": "/Users/shantmanoukian/Tomodachi-Life-Data-Extractor/SaveFile/savedataArc-1.txt",
+  "save_file_size": 1985688,
+  "total_miis": 42,
+  "total_json_size": 507752,
+  "extraction_date": "2025-11-05T10:33:28.095197",
+  "miis": {
+    "0": {
+      "index": 0,
+      "nickname": "Shant",
+      "filename": "Shant/shant.json",
+      "personality_type": "Outgoing Entertainer",
+      "relationship_count": 99,
+      "total_size": 8559
+    },
+    "1": {
+      "index": 1,
+      "nickname": "Sona",
+      "filename": "Sona/sona.json",
+      "personality_type": "Outgoing Charmer",
+      "relationship_count": 99,
+      "total_size": 8532
+    },
+    "2": {
+      "index": 2,
+      "nickname": "Seta",
+      "filename": "Seta/seta.json",
+      "personality_type": "Confident Adventurer",
+      "relationship_count": 97,
+      "total_size": 8398
+    },
+    "3": {
+      "index": 3,
+      "nickname": "Raffi",
+      "filename": "Raffi/raffi.json",
+      "personality_type": "Confident Go-getter",
+      "relationship_count": 99,
+      "total_size": 8541
+    },
+    "4": {
+      "index": 4,
+      "nickname": "Nora",
+      "filename": "Nora/nora.json",
+      "personality_type": "Independent Artist",
+      "relationship_count": 98,
+      "total_size": 8454
+    },
+    "5": {
+      "index": 5,
+      "nickname": "Babig",
+      "filename": "Babig/babig.json",
+      "personality_type": "Independent Thinker",
+      "relationship_count": 99,
+      "total_size": 8539
+    },
+    "6": {
+      "index": 6,
+      "nickname": "Babo",
+      "filename": "Babo/babo.json",
+      "personality_type": "Confident Designer",
+      "relationship_count": 100,
+      "total_size": 8619
+    },
+    "7": {
+      "index": 7,
+      "nickname": "Grandmame",
+      "filename": "Grandmame/grandmame.json",
+      "personality_type": "Easygoing Softie",
+      "relationship_count": 98,
+      "total_size": 8467
+    },
+    "8": {
+      "index": 8,
+      "nickname": "Tyler",
+      "filename": "Tyler/tyler.json",
+      "personality_type": "Outgoing Trendsetter",
+      "relationship_count": 100,
+      "total_size": 8635
+    },
+    "9": {
+      "index": 9,
+      "nickname": "Jack",
+      "filename": "Jack/jack.json",
+      "personality_type": "Outgoing Charmer",
+      "relationship_count": 100,
+      "total_size": 8612
+    },
+    "10": {
+      "index": 10,
+      "nickname": "Alec",
+      "filename": "Alec/alec.json",
+      "personality_type": "Independent Lone Wolf",
+      "relationship_count": 99,
+      "total_size": 8561
+    },
+    "11": {
+      "index": 11,
+      "nickname": "Lia",
+      "filename": "Lia/lia.json",
+      "personality_type": "Outgoing Charmer",
+      "relationship_count": 99,
+      "total_size": 8534
+    },
+    "12": {
+      "index": 12,
+      "nickname": "Andrew",
+      "filename": "Andrew/andrew.json",
+      "personality_type": "Outgoing Leader",
+      "relationship_count": 98,
+      "total_size": 8449
+    },
+    "13": {
+      "index": 13,
+      "nickname": "Ishu",
+      "filename": "Ishu/ishu.json",
+      "personality_type": "Outgoing Leader",
+      "relationship_count": 98,
+      "total_size": 8454
+    },
+    "14": {
+      "index": 14,
+      "nickname": "Talia",
+      "filename": "Talia/talia.json",
+      "personality_type": "Outgoing Trendsetter",
+      "relationship_count": 98,
+      "total_size": 8457
+    },
+    "15": {
+      "index": 15,
+      "nickname": "Nadia",
+      "filename": "Nadia/nadia.json",
+      "personality_type": "Easygoing Dreamer",
+      "relationship_count": 99,
+      "total_size": 8539
+    },
+    "16": {
+      "index": 16,
+      "nickname": "Christian",
+      "filename": "Christian/christian.json",
+      "personality_type": "Easygoing Buddy",
+      "relationship_count": 100,
+      "total_size": 8630
+    },
+    "17": {
+      "index": 17,
+      "nickname": "Seppe",
+      "filename": "Seppe/seppe.json",
+      "personality_type": "Confident Designer",
+      "relationship_count": 97,
+      "total_size": 8400
+    },
+    "18": {
+      "index": 18,
+      "nickname": "Aidan",
+      "filename": "Aidan/aidan.json",
+      "personality_type": "Easygoing Buddy",
+      "relationship_count": 100,
+      "total_size": 8614
+    },
+    "19": {
+      "index": 19,
+      "nickname": "Sophia",
+      "filename": "Sophia/sophia.json",
+      "personality_type": "Confident Go-getter",
+      "relationship_count": 98,
+      "total_size": 8464
+    },
+    "20": {
+      "index": 20,
+      "nickname": "Chaand",
+      "filename": "Chaand/chaand.json",
+      "personality_type": "Outgoing Leader",
+      "relationship_count": 99,
+      "total_size": 8542
+    },
+    "21": {
+      "index": 21,
+      "nickname": "Stephen",
+      "filename": "Stephen/stephen.json",
+      "personality_type": "Easygoing Optimist",
+      "relationship_count": 100,
+      "total_size": 8631
+    },
+    "22": {
+      "index": 22,
+      "nickname": "Charlotte",
+      "filename": "Charlotte/charlotte.json",
+      "personality_type": "Easygoing Dreamer",
+      "relationship_count": 99,
+      "total_size": 8551
+    },
+    "23": {
+      "index": 23,
+      "nickname": "Evvie",
+      "filename": "Evvie/evvie.json",
+      "personality_type": "Outgoing Trendsetter",
+      "relationship_count": 98,
+      "total_size": 8462
+    },
+    "24": {
+      "index": 24,
+      "nickname": "Nick",
+      "filename": "Nick/nick.json",
+      "personality_type": "Confident Brainiac",
+      "relationship_count": 99,
+      "total_size": 8537
+    },
+    "25": {
+      "index": 25,
+      "nickname": "Mushy",
+      "filename": "Mushy/mushy.json",
+      "personality_type": "Easygoing Dreamer",
+      "relationship_count": 94,
+      "total_size": 8153
+    },
+    "26": {
+      "index": 26,
+      "nickname": "Josh",
+      "filename": "Josh/josh.json",
+      "personality_type": "Easygoing Optimist",
+      "relationship_count": 99,
+      "total_size": 8567
+    },
+    "27": {
+      "index": 27,
+      "nickname": "Mr. White",
+      "filename": "Mr White/mr white.json",
+      "personality_type": "Independent Lone Wolf",
+      "relationship_count": 98,
+      "total_size": 8476
+    },
+    "28": {
+      "index": 28,
+      "nickname": "Julia",
+      "filename": "Julia/julia.json",
+      "personality_type": "Independent Free Spirit",
+      "relationship_count": 97,
+      "total_size": 8396
+    },
+    "29": {
+      "index": 29,
+      "nickname": "Mehar",
+      "filename": "Mehar/mehar.json",
+      "personality_type": "Easygoing Buddy",
+      "relationship_count": 98,
+      "total_size": 8463
+    },
+    "30": {
+      "index": 30,
+      "nickname": "Owen",
+      "filename": "Owen/owen.json",
+      "personality_type": "Easygoing Optimist",
+      "relationship_count": 94,
+      "total_size": 8163
+    },
+    "31": {
+      "index": 31,
+      "nickname": "Doug",
+      "filename": "Doug/doug.json",
+      "personality_type": "Confident Brainiac",
+      "relationship_count": 91,
+      "total_size": 7918
+    },
+    "32": {
+      "index": 32,
+      "nickname": "Shreya",
+      "filename": "Shreya/shreya.json",
+      "personality_type": "Confident Adventurer",
+      "relationship_count": 95,
+      "total_size": 8257
+    },
+    "33": {
+      "index": 33,
+      "nickname": "Teagan",
+      "filename": "Teagan/teagan.json",
+      "personality_type": "Easygoing Dreamer",
+      "relationship_count": 99,
+      "total_size": 8569
+    },
+    "34": {
+      "index": 34,
+      "nickname": "Nate",
+      "filename": "Nate/nate.json",
+      "personality_type": "Confident Go-getter",
+      "relationship_count": 95,
+      "total_size": 8238
+    },
+    "35": {
+      "index": 35,
+      "nickname": "Tommy",
+      "filename": "Tommy/tommy.json",
+      "personality_type": "Outgoing Entertainer",
+      "relationship_count": 95,
+      "total_size": 8245
+    },
+    "36": {
+      "index": 36,
+      "nickname": "Wyatt",
+      "filename": "Wyatt/wyatt.json",
+      "personality_type": "Independent Free Spirit",
+      "relationship_count": 94,
+      "total_size": 8179
+    },
+    "37": {
+      "index": 37,
+      "nickname": "Toan",
+      "filename": "Toan/toan.json",
+      "personality_type": "Easygoing Buddy",
+      "relationship_count": 98,
+      "total_size": 8479
+    },
+    "38": {
+      "index": 38,
+      "nickname": "Kirkmeh",
+      "filename": "Kirkmeh/kirkmeh.json",
+      "personality_type": "Outgoing Charmer",
+      "relationship_count": 100,
+      "total_size": 8656
+    },
+    "39": {
+      "index": 39,
+      "nickname": "Thibididoo",
+      "filename": "Thibididoo/thibididoo.json",
+      "personality_type": "Outgoing Charmer",
+      "relationship_count": 100,
+      "total_size": 8661
+    },
+    "40": {
+      "index": 40,
+      "nickname": "In",
+      "filename": "In/in.json",
+      "personality_type": "Easygoing Softie",
+      "relationship_count": 99,
+      "total_size": 8573
+    },
+    "42": {
+      "index": 42,
+      "nickname": "Himmy",
+      "filename": "Himmy/himmy.json",
+      "personality_type": "Easygoing Optimist",
+      "relationship_count": 99,
+      "total_size": 8572
+    }
+  }
+}

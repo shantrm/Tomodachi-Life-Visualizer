@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomodachi Life Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="tabs">
+            <button class="tab-button active" data-tab="miis">Miis</button>
+            <button class="tab-button" data-tab="relationship-web">Relationship Web</button>
+            <button class="tab-button" data-tab="about">About</button>
+        </nav>
+
+        <div class="tab-content">
+            <div id="miis" class="tab-panel active">
+                <div class="miis-grid" id="miis-grid">
+                    <!-- Mii boxes will be loaded here -->
+                </div>
+            </div>
+
+            <div id="relationship-web" class="tab-panel">
+                <div id="chord-diagram-container">
+                    <!-- Chord diagram will be rendered here -->
+                </div>
+                <div id="relationship-filters"
+                    style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 8px;">
+                    <h3 style="font-size: 14px; font-weight: 400; margin-bottom: 10px;">Show Relationship Types:</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                        <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                            <input type="checkbox" class="relationship-type-filter" data-type="4" checked>
+                            <span style="color: #c93d6b;">Spouse</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                            <input type="checkbox" class="relationship-type-filter" data-type="2" checked>
+                            <span style="color: #c45a6f;">Lover</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                            <input type="checkbox" class="relationship-type-filter" data-type="12" checked>
+                            <span style="color: #c4a020;">Best friend</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                            <input type="checkbox" class="relationship-type-filter" data-type="3" checked>
+                            <span style="color: #606060;">Ex</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                            <input type="checkbox" class="relationship-type-filter" data-type="9" checked>
+                            <span style="color: #c93d15;">Friend (in conflict)</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                            <input type="checkbox" class="relationship-type-filter" data-type="1" checked>
+                            <span style="color: #2d8a83;">Friend</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="about" class="tab-panel">
+                <div style="max-width: 900px; margin: 0 auto; padding: 40px 0;">
+                    <div style="margin-bottom: 40px;">
+                        <h2 style="font-size: 24px; font-weight: 400; margin-bottom: 20px;">What is this?</h2>
+                        <p style="font-size: 16px; line-height: 1.8;">
+                            This is a web-based visualization tool for Tomodachi Life save data. It takes data extracted
+                            from
+                            your Tomodachi Life save file and displays all your Miis, their personalities, and
+                            relationships
+                            in an interactive way. You can browse individual Miis, view their personality traits, and
+                            explore
+                            the relationship network between all your Miis using an interactive chord diagram. This
+                            repository works together with the <a
+                                href="https://github.com/shantrm/Tomodachi-Life-Data-Extractor" target="_blank"
+                                style="color: #0066cc; text-decoration: underline;">Tomodachi-Life-Data-Extractor</a> to
+                            extract and visualize your save data.
+                        </p>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 40px;">
+                        <img src="shant.png" alt="Shant" style="width: 300px; height: auto; border-radius: 8px;">
+                        <div style="line-height: 1.8;">
+                            <p style="font-size: 16px;">Hey it's Mii (Ha-ha), Shant. I made this.</p>
+                            <p style="font-size: 16px; margin-top: 30px;">Github repo here: <a
+                                    href="https://github.com/shantrm/Tomodachi-Life-Visualizer" target="_blank"
+                                    style="color: #0066cc; text-decoration: underline;">https://github.com/shantrm/Tomodachi-Life-Visualizer</a>
+                            </p>
+                            <p style="font-size: 16px; margin-top: 30px;">Data extractor: <a
+                                    href="https://github.com/shantrm/Tomodachi-Life-Data-Extractor" target="_blank"
+                                    style="color: #0066cc; text-decoration: underline;">https://github.com/shantrm/Tomodachi-Life-Data-Extractor</a>
+                            </p>
+                            <p style="font-size: 16px; margin-top: 30px;">My personal website: <a
+                                    href="https://shantrm.me" target="_blank"
+                                    style="color: #0066cc; text-decoration: underline;">shantrm.me</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mii Detail Modal -->
+    <div id="mii-detail-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="mii-detail-content">
+                <!-- Mii detail content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
