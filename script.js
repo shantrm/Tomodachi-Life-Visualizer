@@ -21,9 +21,78 @@ function getBasePath() {
     return base;
 }
 
+const PERSONALITY_GROUPS = [
+    {
+        id: 'easygoing',
+        label: 'Easygoing',
+        color: '#febe28',
+        subtypes: [
+            { label: 'Dreamer', value: 'easygoing dreamer', color: '#ffc740' },
+            { label: 'Optimist', value: 'easygoing optimist', color: '#ff9695' },
+            { label: 'Softie', value: 'easygoing softie', color: '#fdaba8' },
+            { label: 'Buddy', value: 'easygoing buddy', color: '#ffe761' }
+        ]
+    },
+    {
+        id: 'outgoing',
+        label: 'Outgoing',
+        color: '#fc7976',
+        subtypes: [
+            { label: 'Leader', value: 'outgoing leader', color: '#ff5100' },
+            { label: 'Entertainer', value: 'outgoing entertainer', color: '#f00001' },
+            { label: 'Charmer', value: 'outgoing charmer', color: '#ff6e00' },
+            { label: 'Trendsetter', value: 'outgoing trendsetter', color: '#ff1e83' }
+        ]
+    },
+    {
+        id: 'confident',
+        label: 'Confident',
+        color: '#8d9fff',
+        subtypes: [
+            { label: 'Adventurer', value: 'confident adventurer', color: '#945bf8' },
+            { label: 'Brainiac', value: 'confident brainiac', color: '#0065ff' },
+            { label: 'Designer', value: 'confident designer', color: '#0196fc' },
+            { label: 'Go-getter', value: 'confident go-getter', color: '#5a3df9' }
+        ]
+    },
+    {
+        id: 'independent',
+        label: 'Independent',
+        color: '#67ab8c',
+        subtypes: [
+            { label: 'Artist', value: 'independent artist', color: '#63be44' },
+            { label: 'Free Spirit', value: 'independent free spirit', color: '#63a064' },
+            { label: 'Lone Wolf', value: 'independent lone wolf', color: '#598181' },
+            { label: 'Thinker', value: 'independent thinker', color: '#599495' }
+        ]
+    }
+];
+
+const DEFAULT_PERSONALITY_LABEL = 'All personalities';
+
+let allMiis = [];
+let currentSearchTerm = '';
+let currentPersonalityFilter = 'all';
+let currentPersonalityLabel = DEFAULT_PERSONALITY_LABEL;
+let miiSearchInputEl = null;
+let miiSearchWrapperEl = null;
+let personalityFilterContainerEl = null;
+let personalityFilterButtonEl = null;
+let personalityDropdownEl = null;
+let personalityFilterLabelEl = null;
+let personalityGroupElements = [];
+let activePersonalityGroupId = null;
+
 document.addEventListener('DOMContentLoaded', function () {
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanels = document.querySelectorAll('.tab-panel');
+    miiSearchInputEl = document.getElementById('mii-search');
+    const miiSearchToggle = document.getElementById('mii-search-toggle');
+    miiSearchWrapperEl = document.getElementById('miis-search-wrapper');
+    personalityFilterContainerEl = document.getElementById('personality-filter');
+    personalityFilterButtonEl = document.getElementById('personality-filter-button');
+    personalityDropdownEl = document.getElementById('personality-dropdown');
+    personalityFilterLabelEl = document.getElementById('personality-filter-label');
 
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -43,6 +112,41 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    if (miiSearchInputEl && miiSearchWrapperEl) {
+        if (miiSearchToggle) {
+            miiSearchToggle.addEventListener('click', () => {
+                const isActive = miiSearchWrapperEl.classList.contains('active');
+                if (isActive) {
+                    closeMiiSearch();
+                } else {
+                    openMiiSearch();
+                }
+            });
+        }
+
+        miiSearchInputEl.addEventListener('input', handleMiiSearchInput);
+        miiSearchInputEl.addEventListener('blur', () => {
+            if (!miiSearchInputEl.value.trim()) {
+                closeMiiSearch();
+            }
+        });
+        miiSearchInputEl.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                miiSearchInputEl.value = '';
+                currentSearchTerm = '';
+                renderMiis();
+                closeMiiSearch();
+            }
+        });
+    }
+
+    if (personalityFilterContainerEl && personalityFilterButtonEl && personalityDropdownEl) {
+        buildPersonalityDropdown();
+        personalityFilterButtonEl.addEventListener('click', togglePersonalityDropdown);
+        document.addEventListener('click', handlePersonalityFilterOutsideClick);
+        document.addEventListener('keydown', handlePersonalityFilterKeydown);
+    }
 
     // Load Miis
     loadMiis();
@@ -88,35 +192,331 @@ async function loadMiis() {
         }
 
         // Sort miis by index
-        const miisArray = Object.values(data.miis).sort((a, b) => a.index - b.index);
-        console.log(`Found ${miisArray.length} miis`);
+        allMiis = Object.values(data.miis).sort((a, b) => a.index - b.index);
+        console.log(`Found ${allMiis.length} miis`);
 
-        miisGrid.innerHTML = '';
-
-        miisArray.forEach(mii => {
-            const miiBox = document.createElement('div');
-            miiBox.className = 'mii-box';
-            miiBox.addEventListener('click', () => showMiiDetail(mii));
-
-            // Get folder name from filename
-            const folderName = mii.filename.split('/')[0];
-            const basePath = getBasePath();
-            const imagePath = basePath ? `${basePath}/extracted_miis/${folderName}/face.png` : `/extracted_miis/${folderName}/face.png`;
-
-            miiBox.innerHTML = `
-                <img src="${imagePath}" alt="${mii.nickname}" class="mii-image">
-                <div class="mii-name">${mii.nickname}</div>
-            `;
-
-            miisGrid.appendChild(miiBox);
-        });
-
+        renderMiis();
         console.log('Miis loaded successfully');
     } catch (error) {
         console.error('Error loading miis:', error);
         const miisGrid = document.getElementById('miis-grid');
         if (miisGrid) {
             miisGrid.innerHTML = `<p style="color: #666;">Error loading miis: ${error.message}. Make sure you're running a local server (e.g., python3 -m http.server 8000) and accessing via http://localhost:8000</p>`;
+        }
+        updateMiiCount(0, 0);
+    }
+}
+
+function handleMiiSearchInput(event) {
+    currentSearchTerm = event.target.value;
+    renderMiis();
+}
+
+function openMiiSearch() {
+    if (!miiSearchWrapperEl || !miiSearchInputEl) {
+        return;
+    }
+
+    miiSearchWrapperEl.classList.add('active');
+    requestAnimationFrame(() => miiSearchInputEl.focus());
+}
+
+function closeMiiSearch() {
+    if (!miiSearchWrapperEl || !miiSearchInputEl) {
+        return;
+    }
+
+    miiSearchWrapperEl.classList.remove('active');
+    miiSearchInputEl.blur();
+}
+
+function renderMiis() {
+    const miisGrid = document.getElementById('miis-grid');
+
+    if (!miisGrid) {
+        console.error('miis-grid element not found!');
+        return;
+    }
+
+    const normalizedSearch = currentSearchTerm.trim().toLowerCase();
+    const basePath = getBasePath();
+
+    const visibleMiis = allMiis.filter(mii => {
+        const matchesSearch = normalizedSearch
+            ? (mii.nickname || '').toLowerCase().includes(normalizedSearch)
+            : true;
+        const matchesPersonality = currentPersonalityFilter === 'all'
+            ? true
+            : (mii.personality_type || '').toLowerCase() === currentPersonalityFilter;
+
+        return matchesSearch && matchesPersonality;
+    });
+
+    miisGrid.innerHTML = '';
+
+    if (visibleMiis.length === 0) {
+        const emptyState = document.createElement('div');
+        emptyState.className = 'miis-empty-state';
+        emptyState.textContent = allMiis.length
+            ? `No Miis match "${currentSearchTerm}".`
+            : 'No Miis available.';
+        miisGrid.appendChild(emptyState);
+        updateMiiCount(0, allMiis.length);
+        return;
+    }
+
+    visibleMiis.forEach(mii => {
+        const miiBox = document.createElement('div');
+        miiBox.className = 'mii-box';
+        miiBox.addEventListener('click', () => showMiiDetail(mii));
+
+        const folderName = mii.filename.split('/')[0];
+        const imagePath = basePath ? `${basePath}/extracted_miis/${folderName}/face.png` : `/extracted_miis/${folderName}/face.png`;
+
+        miiBox.innerHTML = `
+            <img src="${imagePath}" alt="${mii.nickname}" class="mii-image">
+            <div class="mii-name">${mii.nickname}</div>
+        `;
+
+        miisGrid.appendChild(miiBox);
+    });
+
+    updateMiiCount(visibleMiis.length, allMiis.length);
+}
+
+function updateMiiCount(visibleCount, totalCount) {
+    const countEl = document.getElementById('mii-count');
+
+    if (!countEl) {
+        return;
+    }
+
+    if (!totalCount) {
+        countEl.textContent = '';
+        return;
+    }
+
+    countEl.textContent = visibleCount === totalCount
+        ? `${totalCount} Miis`
+        : `${visibleCount} of ${totalCount} Miis`;
+}
+
+function buildPersonalityDropdown() {
+    if (!personalityDropdownEl) {
+        return;
+    }
+
+    personalityDropdownEl.innerHTML = '';
+    personalityGroupElements = [];
+
+    const allButton = document.createElement('button');
+    allButton.type = 'button';
+    allButton.className = 'personality-option';
+    allButton.textContent = DEFAULT_PERSONALITY_LABEL;
+    allButton.setAttribute('data-personality-value', 'all');
+    allButton.addEventListener('click', () => {
+        setPersonalityFilter('all', DEFAULT_PERSONALITY_LABEL);
+        closePersonalityDropdown();
+    });
+    personalityDropdownEl.appendChild(allButton);
+
+    PERSONALITY_GROUPS.forEach(group => {
+        const groupWrapper = document.createElement('div');
+        groupWrapper.className = 'personality-group';
+        groupWrapper.setAttribute('data-group-id', group.id);
+        groupWrapper.style.setProperty('--group-color', group.color);
+        groupWrapper.style.setProperty('--group-text-color', getTextColorForBackground(group.color));
+        groupWrapper.addEventListener('mouseenter', () => setActivePersonalityGroup(group.id));
+        groupWrapper.addEventListener('focusin', () => setActivePersonalityGroup(group.id));
+        personalityGroupElements.push(groupWrapper);
+
+        const groupButton = document.createElement('button');
+        groupButton.type = 'button';
+        groupButton.className = 'personality-group-button';
+        groupButton.textContent = group.label;
+        groupWrapper.appendChild(groupButton);
+
+        const submenu = document.createElement('div');
+        submenu.className = 'personality-submenu';
+
+        group.subtypes.forEach(subtype => {
+            const subButton = document.createElement('button');
+            subButton.type = 'button';
+            subButton.className = 'personality-suboption';
+            subButton.textContent = subtype.label;
+            subButton.setAttribute('data-personality-value', subtype.value);
+            subButton.style.setProperty('--sub-color', subtype.color);
+            subButton.style.setProperty('--sub-text-color', getTextColorForBackground(subtype.color));
+            subButton.addEventListener('click', () => {
+                setPersonalityFilter(subtype.value, `${group.label} · ${subtype.label}`);
+                closePersonalityDropdown();
+            });
+            submenu.appendChild(subButton);
+        });
+
+        groupWrapper.appendChild(submenu);
+        personalityDropdownEl.appendChild(groupWrapper);
+    });
+
+    updatePersonalityFilterLabel();
+    updateActivePersonalityOption(currentPersonalityFilter);
+    syncActivePersonalityGroup(currentPersonalityFilter);
+    updatePersonalityFilterButtonAppearance();
+}
+
+function setPersonalityFilter(value, label) {
+    currentPersonalityFilter = value;
+    currentPersonalityLabel = label || DEFAULT_PERSONALITY_LABEL;
+    updatePersonalityFilterLabel();
+    updateActivePersonalityOption(value);
+    syncActivePersonalityGroup(value);
+    updatePersonalityFilterButtonAppearance();
+    renderMiis();
+}
+
+function updatePersonalityFilterLabel() {
+    if (personalityFilterLabelEl) {
+        personalityFilterLabelEl.textContent = currentPersonalityLabel;
+    }
+}
+
+function updateActivePersonalityOption(value) {
+    if (!personalityDropdownEl) {
+        return;
+    }
+
+    const options = personalityDropdownEl.querySelectorAll('[data-personality-value]');
+    options.forEach(option => {
+        const optionValue = option.getAttribute('data-personality-value');
+        option.classList.toggle('is-active', optionValue === value);
+    });
+}
+
+function syncActivePersonalityGroup(value) {
+    if (!value || value === 'all') {
+        clearActivePersonalityGroup();
+        return;
+    }
+
+    const groupId = findPersonalityGroupIdByValue(value);
+    if (groupId) {
+        setActivePersonalityGroup(groupId);
+    } else {
+        clearActivePersonalityGroup();
+    }
+}
+
+function setActivePersonalityGroup(groupId) {
+    activePersonalityGroupId = groupId;
+    personalityGroupElements.forEach(el => {
+        el.classList.toggle('is-open', el.getAttribute('data-group-id') === groupId);
+    });
+}
+
+function clearActivePersonalityGroup() {
+    activePersonalityGroupId = null;
+    personalityGroupElements.forEach(el => el.classList.remove('is-open'));
+}
+
+function findPersonalityGroupIdByValue(value) {
+    const normalized = (value || '').toLowerCase();
+    for (const group of PERSONALITY_GROUPS) {
+        if (group.subtypes.some(sub => sub.value === normalized)) {
+            return group.id;
+        }
+    }
+    return null;
+}
+
+function getPersonalityColorForValue(value) {
+    const normalized = (value || '').toLowerCase();
+    if (!normalized || normalized === 'all') {
+        return null;
+    }
+
+    for (const group of PERSONALITY_GROUPS) {
+        if (group.id === normalized) {
+            return group.color;
+        }
+
+        const match = group.subtypes.find(sub => sub.value === normalized);
+        if (match) {
+            return match.color;
+        }
+    }
+
+    return null;
+}
+
+function updatePersonalityFilterButtonAppearance() {
+    if (!personalityFilterButtonEl) {
+        return;
+    }
+
+    const color = getPersonalityColorForValue(currentPersonalityFilter);
+    if (color) {
+        const textColor = getTextColorForBackground(color);
+        personalityFilterButtonEl.style.backgroundColor = color;
+        personalityFilterButtonEl.style.color = textColor;
+        personalityFilterButtonEl.style.borderColor = color;
+        personalityFilterButtonEl.classList.add('has-selection');
+    } else {
+        personalityFilterButtonEl.style.backgroundColor = '';
+        personalityFilterButtonEl.style.color = '';
+        personalityFilterButtonEl.style.borderColor = '';
+        personalityFilterButtonEl.classList.remove('has-selection');
+    }
+}
+
+function togglePersonalityDropdown() {
+    if (!personalityFilterContainerEl) {
+        return;
+    }
+
+    if (personalityFilterContainerEl.classList.contains('open')) {
+        closePersonalityDropdown();
+    } else {
+        openPersonalityDropdown();
+    }
+}
+
+function openPersonalityDropdown() {
+    if (!personalityFilterContainerEl || !personalityFilterButtonEl) {
+        return;
+    }
+
+    personalityFilterContainerEl.classList.add('open');
+    personalityFilterButtonEl.setAttribute('aria-expanded', 'true');
+}
+
+function closePersonalityDropdown() {
+    if (!personalityFilterContainerEl || !personalityFilterButtonEl) {
+        return;
+    }
+
+    personalityFilterContainerEl.classList.remove('open');
+    personalityFilterButtonEl.setAttribute('aria-expanded', 'false');
+}
+
+function handlePersonalityFilterOutsideClick(event) {
+    if (!personalityFilterContainerEl || !personalityFilterContainerEl.classList.contains('open')) {
+        return;
+    }
+
+    if (!personalityFilterContainerEl.contains(event.target)) {
+        closePersonalityDropdown();
+    }
+}
+
+function handlePersonalityFilterKeydown(event) {
+    if (event.key !== 'Escape') {
+        return;
+    }
+
+    if (personalityFilterContainerEl && personalityFilterContainerEl.classList.contains('open')) {
+        closePersonalityDropdown();
+        if (personalityFilterButtonEl) {
+            personalityFilterButtonEl.focus();
         }
     }
 }
@@ -135,6 +535,13 @@ function isLightColor(hex) {
 
     // If luminance is greater than 0.5, it's a light color
     return luminance > 0.5;
+}
+
+function getTextColorForBackground(hex) {
+    if (!hex) {
+        return '#1e1e1e';
+    }
+    return isLightColor(hex) ? '#1e1e1e' : '#ffffff';
 }
 
 function getRelationshipsHTML(relationships, showAll = false) {

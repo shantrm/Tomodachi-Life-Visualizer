@@ -19,6 +19,32 @@
 
         <div class="tab-content">
             <div id="miis" class="tab-panel active">
+                <div class="miis-header">
+                    <div class="miis-search" id="miis-search-wrapper">
+                        <button id="mii-search-toggle" aria-label="Toggle Mii search" type="button">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M15.5 14h-.79l-.28-.27a6 6 0 1 0-.71.71l.27.28v.79L20 20.5 21.5 19l-5.5-5zM10 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8z">
+                                </path>
+                            </svg>
+                        </button>
+                        <input type="search" id="mii-search" placeholder="Search Miis..." aria-label="Search Miis">
+                    </div>
+                    <div class="miis-filters">
+                        <div class="personality-filter" id="personality-filter">
+                            <span class="personality-filter-label">Personality</span>
+                            <button type="button" id="personality-filter-button" aria-haspopup="true"
+                                aria-controls="personality-dropdown" aria-expanded="false">
+                                <span id="personality-filter-label">All personalities</span>
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M7 10l5 5 5-5H7z"></path>
+                                </svg>
+                            </button>
+                            <div class="personality-dropdown" id="personality-dropdown" role="menu"></div>
+                        </div>
+                    </div>
+                    <div class="mii-count" id="mii-count"></div>
+                </div>
                 <div class="miis-grid" id="miis-grid">
                     <!-- Mii boxes will be loaded here -->
                 </div>

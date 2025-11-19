@@ -55,6 +55,222 @@ body {
     display: block;
 }
 
+.miis-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.miis-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.miis-filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.personality-filter {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.personality-filter-label {
+    font-size: 13px;
+    color: #666666;
+    white-space: nowrap;
+}
+
+#personality-filter-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #000000;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#personality-filter-button.has-selection {
+    box-shadow: none;
+}
+
+#personality-filter-button svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.personality-filter.open #personality-filter-button {
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+}
+
+.personality-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 12px;
+    padding: 12px;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 260px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    z-index: 30;
+    overflow: visible;
+}
+
+.personality-filter.open .personality-dropdown {
+    display: flex;
+}
+
+.personality-option,
+.personality-group-button,
+.personality-suboption {
+    border: none;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 14px;
+    background-color: #f5f5f5;
+    color: #000000;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.personality-option {
+    width: 100%;
+    background-color: #f0f0f0;
+}
+
+.personality-option.is-active,
+.personality-suboption.is-active {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2) inset;
+}
+
+.personality-group {
+    position: relative;
+}
+
+.personality-group-button {
+    width: 100%;
+    background-color: var(--group-color, #f4f4f4);
+    color: var(--group-text-color, #1e1e1e);
+    cursor: default;
+}
+
+.personality-submenu {
+    position: absolute;
+    top: 0;
+    left: calc(100% - 6px);
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    min-width: 210px;
+    z-index: 40;
+}
+
+.personality-group:hover .personality-submenu,
+.personality-group:focus-within .personality-submenu,
+.personality-group.is-open .personality-submenu {
+    display: flex;
+}
+
+.personality-suboption {
+    background-color: var(--sub-color, #f7f7f7);
+    color: var(--sub-text-color, #1e1e1e);
+}
+
+.personality-suboption:hover {
+    transform: translateX(4px);
+}
+
+.personality-option:focus-visible,
+.personality-group-button:focus-visible,
+.personality-suboption:focus-visible {
+    outline: 2px solid rgba(0, 0, 0, 0.4);
+    outline-offset: 2px;
+}
+
+.mii-count {
+    font-size: 13px;
+    color: #666666;
+    margin-left: auto;
+}
+
+#mii-search-toggle {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1e1e1e;
+    transition: opacity 0.2s ease;
+}
+
+#mii-search-toggle svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+#mii-search-toggle:hover {
+    opacity: 0.7;
+}
+
+#mii-search {
+    width: 0;
+    opacity: 0;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #000000;
+    padding: 8px 0;
+    transition: width 0.2s ease, opacity 0.2s ease, padding 0.2s ease;
+    pointer-events: none;
+}
+
+.miis-search.active #mii-search {
+    width: 220px;
+    opacity: 1;
+    padding: 8px 12px;
+    pointer-events: auto;
+}
+
+#mii-search:focus {
+    outline: none;
+    border-color: #000000;
+}
+
+#mii-search::placeholder {
+    color: #9c9c9c;
+}
+
 .miis-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -83,6 +299,12 @@ body {
     font-size: 14px;
     color: #000000;
     font-weight: 400;
+}
+
+.miis-empty-state {
+    font-size: 14px;
+    color: #666666;
+    padding: 20px 0;
 }
 
 /* Modal Styles */
