@@ -2,12 +2,25 @@
 function getBasePath() {
     // Get the pathname (e.g., "/Tomodachi-Life-Visualizer/" or "/" or "/index.html")
     const pathname = window.location.pathname;
-    // Remove filename and trailing slash, keep only the directory path
-    // For GitHub Pages: "/Tomodachi-Life-Visualizer/" -> "/Tomodachi-Life-Visualizer"
-    // For local root: "/" -> ""
-    // For local with index.html: "/index.html" -> ""
-    const base = pathname.replace(/\/[^\/]*$/, '').replace(/\/$/, '');
-    return base || '';
+
+    // If pathname is just "/", we're at root (local server)
+    if (pathname === '/') {
+        return '';
+    }
+
+    // For GitHub Pages, extract the repo name from the path
+    // e.g., "/Tomodachi-Life-Visualizer/" or "/Tomodachi-Life-Visualizer/index.html"
+    // Split by '/' and filter out empty strings and filenames
+    const parts = pathname.split('/').filter(p => p && !p.includes('.'));
+
+    // If no directory parts, we're at root
+    if (parts.length === 0) {
+        return '';
+    }
+
+    // Return the base path with leading slash
+    // e.g., "/Tomodachi-Life-Visualizer"
+    return '/' + parts[0];
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -55,7 +68,9 @@ async function loadMiis() {
     try {
         console.log('Loading miis...');
         const basePath = getBasePath();
-        const response = await fetch(`${basePath}/extracted_miis/_summary.json`);
+        const url = basePath ? `${basePath}/extracted_miis/_summary.json` : 'extracted_miis/_summary.json';
+        console.log('Base path:', basePath, 'URL:', url);
+        const response = await fetch(url);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -84,7 +99,7 @@ async function loadMiis() {
             // Get folder name from filename
             const folderName = mii.filename.split('/')[0];
             const basePath = getBasePath();
-            const imagePath = `${basePath}/extracted_miis/${folderName}/face.png`;
+            const imagePath = basePath ? `${basePath}/extracted_miis/${folderName}/face.png` : `extracted_miis/${folderName}/face.png`;
 
             miiBox.innerHTML = `
                 <img src="${imagePath}" alt="${mii.nickname}" class="mii-image">
@@ -339,14 +354,14 @@ function getPersonalityDescriptions(personalityType) {
 async function showMiiDetail(mii) {
     try {
         const basePath = getBasePath();
-        const response = await fetch(`${basePath}/extracted_miis/${mii.filename}`);
+        const response = await fetch(basePath ? `${basePath}/extracted_miis/${mii.filename}` : `extracted_miis/${mii.filename}`);
         const miiData = await response.json();
         const detailContent = document.getElementById('mii-detail-content');
         const modal = document.getElementById('mii-detail-modal');
 
         const folderName = mii.filename.split('/')[0];
-        const faceImagePath = `${basePath}/extracted_miis/${folderName}/face.png`;
-        const bodyImagePath = `${basePath}/extracted_miis/${folderName}/body.png`;
+        const faceImagePath = basePath ? `${basePath}/extracted_miis/${folderName}/face.png` : `extracted_miis/${folderName}/face.png`;
+        const bodyImagePath = basePath ? `${basePath}/extracted_miis/${folderName}/body.png` : `extracted_miis/${folderName}/body.png`;
 
         const personalityInfo = getPersonalityDescriptions(miiData.personality.type);
 
@@ -444,7 +459,8 @@ async function loadChordDiagram() {
     try {
         // Load summary data
         const basePath = getBasePath();
-        const summaryResponse = await fetch(`${basePath}/extracted_miis/_summary.json`);
+        const summaryUrl = basePath ? `${basePath}/extracted_miis/_summary.json` : 'extracted_miis/_summary.json';
+        const summaryResponse = await fetch(summaryUrl);
         if (!summaryResponse.ok) throw new Error(`HTTP error! status: ${summaryResponse.status}`);
         const summaryData = await summaryResponse.json();
 
@@ -461,7 +477,8 @@ async function loadChordDiagram() {
         allMiisData = [];
         for (const mii of miisArray) {
             try {
-                const miiResponse = await fetch(`${basePath}/extracted_miis/${mii.filename}`);
+                const miiUrl = basePath ? `${basePath}/extracted_miis/${mii.filename}` : `extracted_miis/${mii.filename}`;
+                const miiResponse = await fetch(miiUrl);
                 if (miiResponse.ok) {
                     const miiData = await miiResponse.json();
                     allMiisData.push({
