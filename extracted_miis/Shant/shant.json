@@ -1,16 +1,48 @@
 {
   "region": "EU",
-  "save_file_path": "/Users/shantmanoukian/Tomodachi-Life-Data-Extractor/SaveFile/savedataArc-1.txt",
+  "save_file_path": "SaveFile/savedataArc-1.txt",
   "save_file_size": 1985688,
   "mii_index": 0,
   "profile": {
     "nickname": "Shant",
     "firstname": "Shant",
     "lastname": "Manoukian",
+    "pronunciation_nickname": "Shaunt",
+    "pronunciation_firstname": "Shaunt",
+    "pronunciation_lastname": "Manookian",
     "creator": "Shant",
-    "favorite_color": 1,
+    "gender": 0,
+    "favorite_color": 0,
+    "favorite_color_name": "Red",
+    "sharing": 0,
+    "copying": 0,
     "relation_to_you": 1,
-    "grow_kid": 0
+    "grow_kid": 0,
+    "mii_sysid": "E8F5D35E",
+    "tomodachi_life_mii_sysid": "E8F5D35E",
+    "origin_island": 174,
+    "actual_island": 174
+  },
+  "status": {
+    "level": 0,
+    "experience": 104,
+    "hair_color": 1,
+    "pampered_ranking": 7602273,
+    "splurge_ranking": 175380,
+    "catchphrases": {
+      "catchphrase": "What the Sigma!",
+      "happy_phrase": "",
+      "sad_phrase": "Stupid Fatass.",
+      "mad_phrase": "suck my nuts plz",
+      "worried_phrase": "im going to kms"
+    },
+    "gestures": {
+      "gesture_1": 0,
+      "gesture_2": 0,
+      "gesture_3": 0,
+      "gesture_4": 1,
+      "gesture_5": 0
+    }
   },
   "personality": {
     "traits": {
@@ -55,8 +87,8 @@
     },
     "4": {
       "value": 20,
-      "type": 1,
-      "type_name": "Friend",
+      "type": 12,
+      "type_name": "Best friend",
       "target_name": "Nora"
     },
     "5": {
@@ -109,8 +141,8 @@
     },
     "13": {
       "value": 120,
-      "type": 1,
-      "type_name": "Friend",
+      "type": 4,
+      "type_name": "Spouse",
       "target_name": "Ishu"
     },
     "14": {
@@ -211,8 +243,8 @@
     },
     "31": {
       "value": 200,
-      "type": 12,
-      "type_name": "Best Friend",
+      "type": 0,
+      "type_name": "Unknown",
       "target_name": "Doug"
     },
     "32": {
@@ -625,6 +657,44 @@
     }
   },
   "personality_type": "Outgoing Entertainer",
-  "total_size": 8559,
+  "total_size": 9663,
+  "food_preferences": {
+    "all_time_favorites": {
+      "favorite_1": {
+        "id": 12,
+        "name": "Quiche"
+      },
+      "favorite_2": {
+        "id": 1,
+        "name": "Apple pie"
+      }
+    },
+    "current_favorites": {
+      "favorite_1": {
+        "id": 2,
+        "name": "Apple pie"
+      },
+      "favorite_2": {
+        "id": 0,
+        "name": "Nothing"
+      },
+      "favorite_3": {
+        "id": 24,
+        "name": "Coffee"
+      }
+    },
+    "worst_foods": {
+      "worst_1": {
+        "id": 6,
+        "name": "Orange juice"
+      },
+      "worst_2": {
+        "id": 25,
+        "name": "Rice"
+      }
+    },
+    "checktummy": 0,
+    "fullness": 0
+  },
   "relationship_count": 99
 }

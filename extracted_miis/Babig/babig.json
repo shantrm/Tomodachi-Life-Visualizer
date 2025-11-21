@@ -1,16 +1,48 @@
 {
   "region": "EU",
-  "save_file_path": "/Users/shantmanoukian/Tomodachi-Life-Data-Extractor/SaveFile/savedataArc-1.txt",
+  "save_file_path": "SaveFile/savedataArc-1.txt",
   "save_file_size": 1985688,
   "mii_index": 5,
   "profile": {
     "nickname": "Babig",
     "firstname": "Berj",
     "lastname": "Manoukian",
+    "pronunciation_nickname": "Baahbeeg",
+    "pronunciation_firstname": "Bearj",
+    "pronunciation_lastname": "Manookian",
     "creator": "Shant",
-    "favorite_color": 5,
+    "gender": 0,
+    "favorite_color": 1,
+    "favorite_color_name": "Orange",
+    "sharing": 66,
+    "copying": 0,
     "relation_to_you": 6,
-    "grow_kid": 0
+    "grow_kid": 0,
+    "mii_sysid": "E8F5D35E",
+    "tomodachi_life_mii_sysid": "E8F5D35E",
+    "origin_island": 174,
+    "actual_island": 174
+  },
+  "status": {
+    "level": 0,
+    "experience": 32,
+    "hair_color": 1,
+    "pampered_ranking": 7274599,
+    "splurge_ranking": 51870,
+    "catchphrases": {
+      "catchphrase": "I got ice cream!",
+      "happy_phrase": "I'm happy.",
+      "sad_phrase": "I'm happy.",
+      "mad_phrase": "",
+      "worried_phrase": ""
+    },
+    "gestures": {
+      "gesture_1": 0,
+      "gesture_2": 0,
+      "gesture_3": 128,
+      "gesture_4": 239,
+      "gesture_5": 36
+    }
   },
   "personality": {
     "traits": {
@@ -625,6 +657,44 @@
     }
   },
   "personality_type": "Independent Thinker",
-  "total_size": 8539,
+  "total_size": 9647,
+  "food_preferences": {
+    "all_time_favorites": {
+      "favorite_1": {
+        "id": 5,
+        "name": "Strawberry"
+      },
+      "favorite_2": {
+        "id": 27,
+        "name": "Chocolate gateau"
+      }
+    },
+    "current_favorites": {
+      "favorite_1": {
+        "id": 18,
+        "name": "Gratin"
+      },
+      "favorite_2": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_3": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "worst_foods": {
+      "worst_1": {
+        "id": 1,
+        "name": "Apple pie"
+      },
+      "worst_2": {
+        "id": 3,
+        "name": "Prawn pilaf"
+      }
+    },
+    "checktummy": 0,
+    "fullness": 0
+  },
   "relationship_count": 99
 }

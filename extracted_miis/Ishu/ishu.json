@@ -1,16 +1,48 @@
 {
   "region": "EU",
-  "save_file_path": "/Users/shantmanoukian/Tomodachi-Life-Data-Extractor/SaveFile/savedataArc-1.txt",
+  "save_file_path": "SaveFile/savedataArc-1.txt",
   "save_file_size": 1985688,
   "mii_index": 13,
   "profile": {
     "nickname": "Ishu",
     "firstname": "Ishita",
     "lastname": "Ancha",
+    "pronunciation_nickname": "issue",
+    "pronunciation_firstname": "Ish it ah",
+    "pronunciation_lastname": "Awncha",
     "creator": "Shant",
-    "favorite_color": 29,
+    "gender": 1,
+    "favorite_color": 7,
+    "favorite_color_name": "Pink",
+    "sharing": 80,
+    "copying": 0,
     "relation_to_you": 2,
-    "grow_kid": 0
+    "grow_kid": 0,
+    "mii_sysid": "E8F5D35E",
+    "tomodachi_life_mii_sysid": "E8F5D35E",
+    "origin_island": 174,
+    "actual_island": 174
+  },
+  "status": {
+    "level": 0,
+    "experience": 32,
+    "hair_color": 1,
+    "pampered_ranking": 7274596,
+    "splurge_ranking": 81040,
+    "catchphrases": {
+      "catchphrase": "I dont want that",
+      "happy_phrase": "",
+      "sad_phrase": "",
+      "mad_phrase": "",
+      "worried_phrase": ""
+    },
+    "gestures": {
+      "gesture_1": 0,
+      "gesture_2": 0,
+      "gesture_3": 0,
+      "gesture_4": 0,
+      "gesture_5": 128
+    }
   },
   "personality": {
     "traits": {
@@ -31,8 +63,8 @@
   "relationships": {
     "0": {
       "value": 0,
-      "type": 1,
-      "type_name": "Friend",
+      "type": 4,
+      "type_name": "Spouse",
       "target_name": "Shant"
     },
     "1": {
@@ -619,6 +651,44 @@
     }
   },
   "personality_type": "Outgoing Leader",
-  "total_size": 8454,
+  "total_size": 9536,
+  "food_preferences": {
+    "all_time_favorites": {
+      "favorite_1": {
+        "id": 19,
+        "name": "Creamy stew"
+      },
+      "favorite_2": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "current_favorites": {
+      "favorite_1": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_2": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_3": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "worst_foods": {
+      "worst_1": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "worst_2": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "checktummy": 0,
+    "fullness": 0
+  },
   "relationship_count": 98
 }

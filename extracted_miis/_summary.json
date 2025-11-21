@@ -1,10 +1,10 @@
 {
   "region": "EU",
-  "save_file_path": "/Users/shantmanoukian/Tomodachi-Life-Data-Extractor/SaveFile/savedataArc-1.txt",
+  "save_file_path": "SaveFile/savedataArc-1.txt",
   "save_file_size": 1985688,
   "total_miis": 42,
-  "total_json_size": 507752,
-  "extraction_date": "2025-11-05T10:33:28.095197",
+  "total_json_size": 567991,
+  "extraction_date": "2025-11-20T19:23:15.003294",
   "miis": {
     "0": {
       "index": 0,
@@ -12,7 +12,7 @@
       "filename": "Shant/shant.json",
       "personality_type": "Outgoing Entertainer",
       "relationship_count": 99,
-      "total_size": 8559
+      "total_size": 9663
     },
     "1": {
       "index": 1,
@@ -20,7 +20,7 @@
       "filename": "Sona/sona.json",
       "personality_type": "Outgoing Charmer",
       "relationship_count": 99,
-      "total_size": 8532
+      "total_size": 9638
     },
     "2": {
       "index": 2,
@@ -28,7 +28,7 @@
       "filename": "Seta/seta.json",
       "personality_type": "Confident Adventurer",
       "relationship_count": 97,
-      "total_size": 8398
+      "total_size": 9515
     },
     "3": {
       "index": 3,
@@ -36,7 +36,7 @@
       "filename": "Raffi/raffi.json",
       "personality_type": "Confident Go-getter",
       "relationship_count": 99,
-      "total_size": 8541
+      "total_size": 9636
     },
     "4": {
       "index": 4,
@@ -44,7 +44,7 @@
       "filename": "Nora/nora.json",
       "personality_type": "Independent Artist",
       "relationship_count": 98,
-      "total_size": 8454
+      "total_size": 9519
     },
     "5": {
       "index": 5,
@@ -52,7 +52,7 @@
       "filename": "Babig/babig.json",
       "personality_type": "Independent Thinker",
       "relationship_count": 99,
-      "total_size": 8539
+      "total_size": 9647
     },
     "6": {
       "index": 6,
@@ -60,7 +60,7 @@
       "filename": "Babo/babo.json",
       "personality_type": "Confident Designer",
       "relationship_count": 100,
-      "total_size": 8619
+      "total_size": 9714
     },
     "7": {
       "index": 7,
@@ -68,7 +68,7 @@
       "filename": "Grandmame/grandmame.json",
       "personality_type": "Easygoing Softie",
       "relationship_count": 98,
-      "total_size": 8467
+      "total_size": 9576
     },
     "8": {
       "index": 8,
@@ -76,7 +76,7 @@
       "filename": "Tyler/tyler.json",
       "personality_type": "Outgoing Trendsetter",
       "relationship_count": 100,
-      "total_size": 8635
+      "total_size": 9715
     },
     "9": {
       "index": 9,
@@ -84,7 +84,7 @@
       "filename": "Jack/jack.json",
       "personality_type": "Outgoing Charmer",
       "relationship_count": 100,
-      "total_size": 8612
+      "total_size": 9726
     },
     "10": {
       "index": 10,
@@ -92,7 +92,7 @@
       "filename": "Alec/alec.json",
       "personality_type": "Independent Lone Wolf",
       "relationship_count": 99,
-      "total_size": 8561
+      "total_size": 9669
     },
     "11": {
       "index": 11,
@@ -100,7 +100,7 @@
       "filename": "Lia/lia.json",
       "personality_type": "Outgoing Charmer",
       "relationship_count": 99,
-      "total_size": 8534
+      "total_size": 9603
     },
     "12": {
       "index": 12,
@@ -108,7 +108,7 @@
       "filename": "Andrew/andrew.json",
       "personality_type": "Outgoing Leader",
       "relationship_count": 98,
-      "total_size": 8449
+      "total_size": 9523
     },
     "13": {
       "index": 13,
@@ -116,7 +116,7 @@
       "filename": "Ishu/ishu.json",
       "personality_type": "Outgoing Leader",
       "relationship_count": 98,
-      "total_size": 8454
+      "total_size": 9536
     },
     "14": {
       "index": 14,
@@ -124,7 +124,7 @@
       "filename": "Talia/talia.json",
       "personality_type": "Outgoing Trendsetter",
       "relationship_count": 98,
-      "total_size": 8457
+      "total_size": 9552
     },
     "15": {
       "index": 15,
@@ -132,7 +132,7 @@
       "filename": "Nadia/nadia.json",
       "personality_type": "Easygoing Dreamer",
       "relationship_count": 99,
-      "total_size": 8539
+      "total_size": 9626
     },
     "16": {
       "index": 16,
@@ -140,7 +140,7 @@
       "filename": "Christian/christian.json",
       "personality_type": "Easygoing Buddy",
       "relationship_count": 100,
-      "total_size": 8630
+      "total_size": 9719
     },
     "17": {
       "index": 17,
@@ -148,7 +148,7 @@
       "filename": "Seppe/seppe.json",
       "personality_type": "Confident Designer",
       "relationship_count": 97,
-      "total_size": 8400
+      "total_size": 9502
     },
     "18": {
       "index": 18,
@@ -156,7 +156,7 @@
       "filename": "Aidan/aidan.json",
       "personality_type": "Easygoing Buddy",
       "relationship_count": 100,
-      "total_size": 8614
+      "total_size": 9683
     },
     "19": {
       "index": 19,
@@ -164,7 +164,7 @@
       "filename": "Sophia/sophia.json",
       "personality_type": "Confident Go-getter",
       "relationship_count": 98,
-      "total_size": 8464
+      "total_size": 9569
     },
     "20": {
       "index": 20,
@@ -172,7 +172,7 @@
       "filename": "Chaand/chaand.json",
       "personality_type": "Outgoing Leader",
       "relationship_count": 99,
-      "total_size": 8542
+      "total_size": 9629
     },
     "21": {
       "index": 21,
@@ -180,7 +180,7 @@
       "filename": "Stephen/stephen.json",
       "personality_type": "Easygoing Optimist",
       "relationship_count": 100,
-      "total_size": 8631
+      "total_size": 9707
     },
     "22": {
       "index": 22,
@@ -188,7 +188,7 @@
       "filename": "Charlotte/charlotte.json",
       "personality_type": "Easygoing Dreamer",
       "relationship_count": 99,
-      "total_size": 8551
+      "total_size": 9651
     },
     "23": {
       "index": 23,
@@ -196,7 +196,7 @@
       "filename": "Evvie/evvie.json",
       "personality_type": "Outgoing Trendsetter",
       "relationship_count": 98,
-      "total_size": 8462
+      "total_size": 9540
     },
     "24": {
       "index": 24,
@@ -204,7 +204,7 @@
       "filename": "Nick/nick.json",
       "personality_type": "Confident Brainiac",
       "relationship_count": 99,
-      "total_size": 8537
+      "total_size": 9637
     },
     "25": {
       "index": 25,
@@ -212,7 +212,7 @@
       "filename": "Mushy/mushy.json",
       "personality_type": "Easygoing Dreamer",
       "relationship_count": 94,
-      "total_size": 8153
+      "total_size": 9230
     },
     "26": {
       "index": 26,
@@ -220,7 +220,7 @@
       "filename": "Josh/josh.json",
       "personality_type": "Easygoing Optimist",
       "relationship_count": 99,
-      "total_size": 8567
+      "total_size": 9638
     },
     "27": {
       "index": 27,
@@ -228,7 +228,7 @@
       "filename": "Mr White/mr white.json",
       "personality_type": "Independent Lone Wolf",
       "relationship_count": 98,
-      "total_size": 8476
+      "total_size": 9542
     },
     "28": {
       "index": 28,
@@ -236,7 +236,7 @@
       "filename": "Julia/julia.json",
       "personality_type": "Independent Free Spirit",
       "relationship_count": 97,
-      "total_size": 8396
+      "total_size": 9449
     },
     "29": {
       "index": 29,
@@ -244,7 +244,7 @@
       "filename": "Mehar/mehar.json",
       "personality_type": "Easygoing Buddy",
       "relationship_count": 98,
-      "total_size": 8463
+      "total_size": 9537
     },
     "30": {
       "index": 30,
@@ -252,7 +252,7 @@
       "filename": "Owen/owen.json",
       "personality_type": "Easygoing Optimist",
       "relationship_count": 94,
-      "total_size": 8163
+      "total_size": 9218
     },
     "31": {
       "index": 31,
@@ -260,7 +260,7 @@
       "filename": "Doug/doug.json",
       "personality_type": "Confident Brainiac",
       "relationship_count": 91,
-      "total_size": 7918
+      "total_size": 8996
     },
     "32": {
       "index": 32,
@@ -268,7 +268,7 @@
       "filename": "Shreya/shreya.json",
       "personality_type": "Confident Adventurer",
       "relationship_count": 95,
-      "total_size": 8257
+      "total_size": 9337
     },
     "33": {
       "index": 33,
@@ -276,7 +276,7 @@
       "filename": "Teagan/teagan.json",
       "personality_type": "Easygoing Dreamer",
       "relationship_count": 99,
-      "total_size": 8569
+      "total_size": 9647
     },
     "34": {
       "index": 34,
@@ -284,7 +284,7 @@
       "filename": "Nate/nate.json",
       "personality_type": "Confident Go-getter",
       "relationship_count": 95,
-      "total_size": 8238
+      "total_size": 9298
     },
     "35": {
       "index": 35,
@@ -292,7 +292,7 @@
       "filename": "Tommy/tommy.json",
       "personality_type": "Outgoing Entertainer",
       "relationship_count": 95,
-      "total_size": 8245
+      "total_size": 9309
     },
     "36": {
       "index": 36,
@@ -300,7 +300,7 @@
       "filename": "Wyatt/wyatt.json",
       "personality_type": "Independent Free Spirit",
       "relationship_count": 94,
-      "total_size": 8179
+      "total_size": 9243
     },
     "37": {
       "index": 37,
@@ -308,7 +308,7 @@
       "filename": "Toan/toan.json",
       "personality_type": "Easygoing Buddy",
       "relationship_count": 98,
-      "total_size": 8479
+      "total_size": 9529
     },
     "38": {
       "index": 38,
@@ -316,7 +316,7 @@
       "filename": "Kirkmeh/kirkmeh.json",
       "personality_type": "Outgoing Charmer",
       "relationship_count": 100,
-      "total_size": 8656
+      "total_size": 9717
     },
     "39": {
       "index": 39,
@@ -324,7 +324,7 @@
       "filename": "Thibididoo/thibididoo.json",
       "personality_type": "Outgoing Charmer",
       "relationship_count": 100,
-      "total_size": 8661
+      "total_size": 9743
     },
     "40": {
       "index": 40,
@@ -332,7 +332,7 @@
       "filename": "In/in.json",
       "personality_type": "Easygoing Softie",
       "relationship_count": 99,
-      "total_size": 8573
+      "total_size": 9640
     },
     "42": {
       "index": 42,
@@ -340,7 +340,7 @@
       "filename": "Himmy/himmy.json",
       "personality_type": "Easygoing Optimist",
       "relationship_count": 99,
-      "total_size": 8572
+      "total_size": 9633
     }
   }
 }

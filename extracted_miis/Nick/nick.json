@@ -1,16 +1,48 @@
 {
   "region": "EU",
-  "save_file_path": "/Users/shantmanoukian/Tomodachi-Life-Data-Extractor/SaveFile/savedataArc-1.txt",
+  "save_file_path": "SaveFile/savedataArc-1.txt",
   "save_file_size": 1985688,
   "mii_index": 24,
   "profile": {
     "nickname": "Nick",
     "firstname": "Nicholas",
     "lastname": "Lowery",
+    "pronunciation_nickname": "Nick",
+    "pronunciation_firstname": "Nicholas",
+    "pronunciation_lastname": "Lowery",
     "creator": "Shant",
-    "favorite_color": 17,
+    "gender": 0,
+    "favorite_color": 4,
+    "favorite_color_name": "Green",
+    "sharing": 2,
+    "copying": 0,
     "relation_to_you": 0,
-    "grow_kid": 0
+    "grow_kid": 0,
+    "mii_sysid": "E8F5D35E",
+    "tomodachi_life_mii_sysid": "E8F5D35E",
+    "origin_island": 174,
+    "actual_island": 174
+  },
+  "status": {
+    "level": 0,
+    "experience": 101,
+    "hair_color": 1,
+    "pampered_ranking": 7602292,
+    "splurge_ranking": 121310,
+    "catchphrases": {
+      "catchphrase": "Better Call Nick",
+      "happy_phrase": "",
+      "sad_phrase": "",
+      "mad_phrase": "I died pantheon!",
+      "worried_phrase": ""
+    },
+    "gestures": {
+      "gesture_1": 0,
+      "gesture_2": 0,
+      "gesture_3": 128,
+      "gesture_4": 239,
+      "gesture_5": 36
+    }
   },
   "personality": {
     "traits": {
@@ -625,6 +657,44 @@
     }
   },
   "personality_type": "Confident Brainiac",
-  "total_size": 8537,
+  "total_size": 9637,
+  "food_preferences": {
+    "all_time_favorites": {
+      "favorite_1": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_2": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "current_favorites": {
+      "favorite_1": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_2": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_3": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "worst_foods": {
+      "worst_1": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "worst_2": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "checktummy": 0,
+    "fullness": 0
+  },
   "relationship_count": 99
 }

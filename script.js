@@ -83,6 +83,30 @@ let personalityFilterLabelEl = null;
 let personalityGroupElements = [];
 let activePersonalityGroupId = null;
 
+const statsState = {
+    totalMiis: 0,
+    personalityDistribution: [],
+    uniquePersonalities: 0,
+    dominantPersonality: null,
+    totalRelationships: 0,
+    avgRelationshipsPerMii: 0,
+    mostConnected: [],
+    totalJsonSize: 0,
+    avgJsonSize: 0,
+    largestJson: null,
+    friendship: {
+        averageValue: null,
+        sampleSize: 0,
+        strongestBonds: []
+    },
+    relationshipTypeCounts: [],
+    detailLoaded: false,
+    detailLoading: false
+};
+
+const miiDetailCache = new Map();
+let statsDetailPromise = null;
+
 document.addEventListener('DOMContentLoaded', function () {
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanels = document.querySelectorAll('.tab-panel');
@@ -109,6 +133,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Load chord diagram when relationship-web tab is shown
             if (targetTab === 'relationship-web') {
                 loadChordDiagram();
+            } else if (targetTab === 'stats') {
+                renderStats();
+                ensureStatsDetailData();
             }
         });
     });
@@ -195,7 +222,9 @@ async function loadMiis() {
         allMiis = Object.values(data.miis).sort((a, b) => a.index - b.index);
         console.log(`Found ${allMiis.length} miis`);
 
+        computeSummaryStats();
         renderMiis();
+        renderStats();
         console.log('Miis loaded successfully');
     } catch (error) {
         console.error('Error loading miis:', error);
@@ -274,9 +303,9 @@ function renderMiis() {
         const imagePath = basePath ? `${basePath}/extracted_miis/${folderName}/face.png` : `/extracted_miis/${folderName}/face.png`;
 
         miiBox.innerHTML = `
-            <img src="${imagePath}" alt="${mii.nickname}" class="mii-image">
-            <div class="mii-name">${mii.nickname}</div>
-        `;
+                <img src="${imagePath}" alt="${mii.nickname}" class="mii-image">
+                <div class="mii-name">${mii.nickname}</div>
+            `;
 
         miisGrid.appendChild(miiBox);
     });
@@ -299,6 +328,425 @@ function updateMiiCount(visibleCount, totalCount) {
     countEl.textContent = visibleCount === totalCount
         ? `${totalCount} Miis`
         : `${visibleCount} of ${totalCount} Miis`;
+}
+
+function computeSummaryStats() {
+    if (!allMiis || allMiis.length === 0) {
+        statsState.totalMiis = 0;
+        statsState.personalityDistribution = [];
+        statsState.uniquePersonalities = 0;
+        statsState.dominantPersonality = null;
+        statsState.totalRelationships = 0;
+        statsState.avgRelationshipsPerMii = 0;
+        statsState.mostConnected = [];
+        statsState.totalJsonSize = 0;
+        statsState.avgJsonSize = 0;
+        statsState.largestJson = null;
+        statsState.friendship = {
+            averageValue: null,
+            sampleSize: 0,
+            strongestBonds: []
+        };
+        statsState.relationshipTypeCounts = [];
+        statsState.detailLoaded = false;
+        statsState.detailLoading = false;
+        statsDetailPromise = null;
+        return;
+    }
+
+    const totalMiis = allMiis.length;
+    const distributionMap = new Map();
+    let totalRelationships = 0;
+    let totalJsonSize = 0;
+    let largestJson = null;
+
+    allMiis.forEach(mii => {
+        const personality = mii.personality_type || 'Unknown';
+        const key = personality.toLowerCase();
+        if (!distributionMap.has(key)) {
+            distributionMap.set(key, { label: personality, count: 0 });
+        }
+        distributionMap.get(key).count += 1;
+
+        totalRelationships += mii.relationship_count || 0;
+        totalJsonSize += mii.total_size || 0;
+
+        if (!largestJson || (mii.total_size || 0) > (largestJson.total_size || 0)) {
+            largestJson = mii;
+        }
+    });
+
+    statsState.totalMiis = totalMiis;
+    statsState.personalityDistribution = Array.from(distributionMap.values())
+        .map(entry => ({
+            label: entry.label,
+            key: entry.label.toLowerCase(),
+            count: entry.count,
+            percentage: (entry.count / totalMiis) * 100,
+            color: getPersonalityColorForValue(entry.label.toLowerCase()) || '#dcdcdc'
+        }))
+        .sort((a, b) => b.count - a.count);
+    statsState.uniquePersonalities = statsState.personalityDistribution.length;
+    statsState.dominantPersonality = statsState.personalityDistribution.length ? statsState.personalityDistribution[0].label : null;
+    statsState.totalRelationships = totalRelationships;
+    statsState.avgRelationshipsPerMii = totalMiis ? totalRelationships / totalMiis : 0;
+    statsState.mostConnected = [...allMiis]
+        .sort((a, b) => (b.relationship_count || 0) - (a.relationship_count || 0))
+        .slice(0, 5);
+    statsState.totalJsonSize = totalJsonSize;
+    statsState.avgJsonSize = totalMiis ? totalJsonSize / totalMiis : 0;
+    statsState.largestJson = largestJson || null;
+    statsState.friendship = {
+        averageValue: null,
+        sampleSize: 0,
+        strongestBonds: []
+    };
+    statsState.relationshipTypeCounts = [];
+    statsState.detailLoaded = false;
+    statsState.detailLoading = false;
+    statsDetailPromise = null;
+}
+
+function renderStats() {
+    renderStatsHero();
+    renderPersonalityDistribution();
+    renderMostConnected();
+    renderExtraStats();
+    renderFriendshipStats();
+}
+
+function renderStatsHero() {
+    setTextContent('stats-total-miis', statsState.totalMiis ? statsState.totalMiis.toLocaleString() : '--');
+    setTextContent('stats-avg-relationships', statsState.totalMiis ? formatNumber(statsState.avgRelationshipsPerMii) : '--');
+    setTextContent('stats-unique-personalities', statsState.uniquePersonalities ? statsState.uniquePersonalities.toString() : '--');
+    setTextContent('stats-dominant-personality', statsState.dominantPersonality || '--');
+}
+
+function renderPersonalityDistribution() {
+    const container = document.getElementById('personality-distribution');
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = '';
+
+    if (!statsState.personalityDistribution.length) {
+        renderStatsPlaceholder(container, 'No personality data yet.');
+        return;
+    }
+
+    statsState.personalityDistribution.forEach(entry => {
+        const row = document.createElement('div');
+        row.className = 'distribution-row';
+
+        const label = document.createElement('div');
+        label.className = 'distribution-label';
+        const swatch = document.createElement('span');
+        swatch.style.backgroundColor = entry.color;
+        const labelText = document.createElement('span');
+        labelText.textContent = entry.label;
+        label.appendChild(swatch);
+        label.appendChild(labelText);
+
+        const bar = document.createElement('div');
+        bar.className = 'distribution-bar';
+        const fill = document.createElement('div');
+        fill.className = 'distribution-bar-fill';
+        fill.style.backgroundColor = entry.color;
+        fill.style.width = `${entry.percentage.toFixed(2)}%`;
+        bar.appendChild(fill);
+
+        const value = document.createElement('div');
+        value.className = 'distribution-value';
+        value.textContent = `${entry.count} · ${entry.percentage.toFixed(1)}%`;
+
+        row.appendChild(label);
+        row.appendChild(bar);
+        row.appendChild(value);
+        container.appendChild(row);
+    });
+}
+
+function renderMostConnected() {
+    const list = document.getElementById('most-connected-list');
+    if (!list) {
+        return;
+    }
+
+    list.innerHTML = '';
+
+    if (!statsState.mostConnected.length) {
+        const placeholder = document.createElement('li');
+        placeholder.className = 'stats-placeholder';
+        placeholder.textContent = 'No data yet.';
+        list.appendChild(placeholder);
+        return;
+    }
+
+    statsState.mostConnected.forEach(mii => {
+        const li = document.createElement('li');
+        const name = document.createElement('span');
+        name.textContent = mii.nickname || 'Unknown';
+        const value = document.createElement('span');
+        value.textContent = `${(mii.relationship_count || 0).toLocaleString()} links`;
+        li.appendChild(name);
+        li.appendChild(value);
+        list.appendChild(li);
+    });
+}
+
+function renderFriendshipStats() {
+    const container = document.getElementById('friendship-stats');
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = '';
+
+    if (!statsState.totalMiis) {
+        renderStatsPlaceholder(container, 'No data yet.');
+        return;
+    }
+
+    if (statsState.detailLoading && !statsState.detailLoaded) {
+        renderStatsPlaceholder(container, 'Crunching friendship data…');
+        return;
+    }
+
+    if (!statsState.detailLoaded) {
+        renderStatsPlaceholder(container, 'Open the stats tab to load friendship insights.');
+        return;
+    }
+
+    if (statsState.friendship.averageValue === null || statsState.friendship.averageValue === undefined) {
+        renderStatsPlaceholder(container, 'No friendship data found.');
+        return;
+    }
+
+    const avgWrapper = document.createElement('div');
+    avgWrapper.className = 'friendship-average';
+
+    const value = document.createElement('div');
+    value.className = 'friendship-average-value';
+    value.textContent = formatNumber(statsState.friendship.averageValue);
+
+    const label = document.createElement('div');
+    label.className = 'friendship-average-label';
+    label.textContent = `Avg friendship score (${statsState.friendship.sampleSize.toLocaleString()} bonds)`;
+
+    avgWrapper.appendChild(value);
+    avgWrapper.appendChild(label);
+    container.appendChild(avgWrapper);
+
+    if (statsState.friendship.strongestBonds && statsState.friendship.strongestBonds.length) {
+        const list = document.createElement('ul');
+        list.className = 'friendship-strong-list';
+        statsState.friendship.strongestBonds.forEach(bond => {
+            const li = document.createElement('li');
+            const left = document.createElement('span');
+            left.textContent = `${bond.source} & ${bond.target}`;
+            const right = document.createElement('span');
+            right.textContent = `${bond.typeName || 'Friend'} · ${bond.value}`;
+            li.appendChild(left);
+            li.appendChild(right);
+            list.appendChild(li);
+        });
+        container.appendChild(list);
+    }
+}
+
+function renderExtraStats() {
+    const list = document.getElementById('extra-stats-list');
+    if (!list) {
+        return;
+    }
+
+    list.innerHTML = '';
+
+    if (!statsState.totalMiis) {
+        const placeholder = document.createElement('li');
+        placeholder.className = 'stats-placeholder';
+        placeholder.textContent = 'No data yet.';
+        list.appendChild(placeholder);
+        return;
+    }
+
+    const items = [];
+    if (statsState.totalMiis) {
+        items.push(`Average relationships per Mii: ${formatNumber(statsState.avgRelationshipsPerMii)} of ${Math.max(statsState.totalMiis - 1, 1)}`);
+    }
+    items.push(`Total relationship records: ${statsState.totalRelationships.toLocaleString()}`);
+    items.push(`Total extracted data: ${formatBytes(statsState.totalJsonSize)} (avg ${formatBytes(statsState.avgJsonSize)} each)`);
+
+    if (statsState.largestJson) {
+        items.push(`Biggest profile: ${statsState.largestJson.nickname} (${formatBytes(statsState.largestJson.total_size)})`);
+    }
+
+    if (statsState.relationshipTypeCounts && statsState.relationshipTypeCounts.length) {
+        const topType = statsState.relationshipTypeCounts[0];
+        items.push(`Most common relationship: ${topType.label} (${topType.count.toLocaleString()})`);
+    }
+
+    items.forEach(text => {
+        const li = document.createElement('li');
+        li.textContent = text;
+        list.appendChild(li);
+    });
+}
+
+function renderStatsPlaceholder(container, message) {
+    if (!container) {
+        return;
+    }
+    container.innerHTML = `<p class="stats-placeholder">${message}</p>`;
+}
+
+function setTextContent(elementId, value) {
+    const el = document.getElementById(elementId);
+    if (el) {
+        el.textContent = value;
+    }
+}
+
+function ensureStatsDetailData() {
+    if (!allMiis || allMiis.length === 0) {
+        return Promise.resolve();
+    }
+
+    if (statsState.detailLoaded) {
+        renderFriendshipStats();
+        renderExtraStats();
+        return Promise.resolve();
+    }
+
+    if (statsDetailPromise) {
+        return statsDetailPromise;
+    }
+
+    statsState.detailLoading = true;
+    renderFriendshipStats();
+
+    statsDetailPromise = loadStatsDetailData()
+        .then(() => {
+            statsState.detailLoaded = true;
+            renderFriendshipStats();
+            renderExtraStats();
+        })
+        .catch(error => {
+            console.error('Error computing stats detail:', error);
+            renderStatsPlaceholder(document.getElementById('friendship-stats'), 'Unable to load friendship data.');
+        })
+        .finally(() => {
+            statsState.detailLoading = false;
+            statsDetailPromise = null;
+        });
+
+    return statsDetailPromise;
+}
+
+async function loadStatsDetailData() {
+    const pairMap = new Map();
+    let friendSum = 0;
+    let friendCount = 0;
+    const relationshipTypeMap = new Map();
+
+    for (const mii of allMiis) {
+        try {
+            const miiData = await fetchMiiData(mii);
+            const sourceName = (miiData.profile && miiData.profile.nickname) || mii.nickname || 'Unknown';
+            const relationships = Object.values(miiData.relationships || {});
+
+            relationships.forEach(rel => {
+                if (!rel) {
+                    return;
+                }
+
+                if (rel.type === 1 || rel.type === 12) {
+                    if (typeof rel.value === 'number') {
+                        friendSum += rel.value;
+                        friendCount += 1;
+
+                        const targetName = rel.target_name || 'Unknown';
+                        const pairKey = [sourceName, targetName].sort().join('::');
+                        const typeName = rel.type_name || (rel.type === 12 ? 'Best friend' : 'Friend');
+                        const existing = pairMap.get(pairKey);
+                        if (!existing || rel.value > existing.value) {
+                            pairMap.set(pairKey, {
+                                source: sourceName,
+                                target: targetName,
+                                value: rel.value,
+                                typeName
+                            });
+                        }
+                    }
+                }
+
+                const typeLabel = rel.type_name || `Type ${rel.type}`;
+                relationshipTypeMap.set(typeLabel, (relationshipTypeMap.get(typeLabel) || 0) + 1);
+            });
+        } catch (error) {
+            console.error('Error loading stats detail for', mii.filename, error);
+        }
+    }
+
+    statsState.friendship = {
+        averageValue: friendCount ? friendSum / friendCount : null,
+        sampleSize: friendCount,
+        strongestBonds: Array.from(pairMap.values())
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 5)
+    };
+
+    statsState.relationshipTypeCounts = Array.from(relationshipTypeMap.entries())
+        .map(([label, count]) => ({ label, count }))
+        .sort((a, b) => b.count - a.count);
+}
+
+async function fetchMiiData(miiOrFilename) {
+    const filename = typeof miiOrFilename === 'string' ? miiOrFilename : miiOrFilename?.filename;
+    if (!filename) {
+        throw new Error('Missing filename for Mii data.');
+    }
+
+    if (miiDetailCache.has(filename)) {
+        return miiDetailCache.get(filename);
+    }
+
+    const basePath = getBasePath();
+    const response = await fetch(basePath ? `${basePath}/extracted_miis/${filename}` : `/extracted_miis/${filename}`);
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    miiDetailCache.set(filename, data);
+    return data;
+}
+
+function formatBytes(bytes) {
+    if (!bytes) {
+        return '0 B';
+    }
+
+    const units = ['B', 'KB', 'MB', 'GB'];
+    let value = bytes;
+    let unitIndex = 0;
+
+    while (value >= 1024 && unitIndex < units.length - 1) {
+        value /= 1024;
+        unitIndex += 1;
+    }
+
+    const precision = value >= 10 || unitIndex === 0 ? 0 : 1;
+    return `${value.toFixed(precision)} ${units[unitIndex]}`;
+}
+
+function formatNumber(value, decimals = 1) {
+    if (value === null || value === undefined || Number.isNaN(value)) {
+        return '--';
+    }
+    return Number(value).toFixed(decimals);
 }
 
 function buildPersonalityDropdown() {
@@ -763,8 +1211,7 @@ function getPersonalityDescriptions(personalityType) {
 async function showMiiDetail(mii) {
     try {
         const basePath = getBasePath();
-        const response = await fetch(basePath ? `${basePath}/extracted_miis/${mii.filename}` : `/extracted_miis/${mii.filename}`);
-        const miiData = await response.json();
+        const miiData = await fetchMiiData(mii);
         const detailContent = document.getElementById('mii-detail-content');
         const modal = document.getElementById('mii-detail-modal');
 
@@ -820,6 +1267,103 @@ async function showMiiDetail(mii) {
         }
         fullName += ` ${miiData.profile.lastname}`;
 
+        // Build favorite color display
+        let favoriteColorHTML = '';
+        if (miiData.profile && miiData.profile.favorite_color_name) {
+            favoriteColorHTML = `<p><strong>Favorite Color:</strong> ${miiData.profile.favorite_color_name}</p>`;
+        }
+
+        // Build catchphrases display
+        let catchphrasesHTML = '';
+        if (miiData.status && miiData.status.catchphrases) {
+            const phrases = miiData.status.catchphrases;
+            const phrasesList = [];
+
+            if (phrases.catchphrase) {
+                phrasesList.push(`<p><strong>Catchphrase:</strong> "${phrases.catchphrase}"</p>`);
+            }
+            if (phrases.happy_phrase) {
+                phrasesList.push(`<p><strong>Happy:</strong> "${phrases.happy_phrase}"</p>`);
+            }
+            if (phrases.sad_phrase) {
+                phrasesList.push(`<p><strong>Sad:</strong> "${phrases.sad_phrase}"</p>`);
+            }
+            if (phrases.mad_phrase) {
+                phrasesList.push(`<p><strong>Mad:</strong> "${phrases.mad_phrase}"</p>`);
+            }
+            if (phrases.worried_phrase) {
+                phrasesList.push(`<p><strong>Worried:</strong> "${phrases.worried_phrase}"</p>`);
+            }
+
+            if (phrasesList.length > 0) {
+                catchphrasesHTML = `
+                    <div style="flex: 1; min-width: 300px;">
+                        <h2 style="font-size: 20px; font-weight: 400; margin-bottom: 15px;">Catchphrases</h2>
+                        <div style="background-color: #fff9c4; padding: 16px; border-radius: 12px; line-height: 1.8;">
+                            ${phrasesList.join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Build food preferences display
+        let foodHTML = '';
+        if (miiData.food_preferences) {
+            const foodPrefs = miiData.food_preferences;
+            const foodList = [];
+
+            // All-time favorites
+            if (foodPrefs.all_time_favorites) {
+                const allTimeFavs = [];
+                Object.values(foodPrefs.all_time_favorites).forEach(fav => {
+                    if (fav && fav.name && fav.name !== 'Nothing') {
+                        allTimeFavs.push(fav.name);
+                    }
+                });
+                if (allTimeFavs.length > 0) {
+                    foodList.push(`<p><strong>All-time Favorites:</strong> ${allTimeFavs.join(', ')}</p>`);
+                }
+            }
+
+            // Current favorites
+            if (foodPrefs.current_favorites) {
+                const currentFavs = [];
+                Object.values(foodPrefs.current_favorites).forEach(fav => {
+                    if (fav && fav.name && fav.name !== 'Nothing') {
+                        currentFavs.push(fav.name);
+                    }
+                });
+                if (currentFavs.length > 0) {
+                    foodList.push(`<p><strong>Current Favorites:</strong> ${currentFavs.join(', ')}</p>`);
+                }
+            }
+
+            // Worst foods
+            if (foodPrefs.worst_foods) {
+                const worstFoods = [];
+                Object.values(foodPrefs.worst_foods).forEach(food => {
+                    if (food && food.name && food.name !== 'Nothing') {
+                        worstFoods.push(food.name);
+                    }
+                });
+                if (worstFoods.length > 0) {
+                    foodList.push(`<p><strong>Worst Foods:</strong> ${worstFoods.join(', ')}</p>`);
+                }
+            }
+
+            if (foodList.length > 0) {
+                foodHTML = `
+                    <div style="flex: 1; min-width: 300px;">
+                        <h2 style="font-size: 20px; font-weight: 400; margin-bottom: 15px;">Food Preferences</h2>
+                        <div style="background-color: #e8f5e9; padding: 16px; border-radius: 12px; line-height: 1.8;">
+                            ${foodList.join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
         detailContent.innerHTML = `
             <div style="text-align: center; margin-bottom: 40px;">
                 <h1 style="font-size: 32px; font-weight: 400; margin-bottom: 20px;">${miiData.profile.nickname}</h1>
@@ -834,10 +1378,18 @@ async function showMiiDetail(mii) {
                 <div style="line-height: 1.8;">
                     <p><strong>${fullName}</strong></p>
                     <p><strong>Creator:</strong> ${miiData.profile.creator}</p>
+                    ${favoriteColorHTML}
                 </div>
             </div>
             
             ${personalityHTML}
+            
+            ${catchphrasesHTML || foodHTML ? `
+            <div style="display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap;">
+                ${catchphrasesHTML}
+                ${foodHTML}
+            </div>
+            ` : ''}
             
             <div>
                 <h2 style="font-size: 20px; font-weight: 400; margin-bottom: 15px;">Relationships</h2>

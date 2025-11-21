@@ -1,16 +1,48 @@
 {
   "region": "EU",
-  "save_file_path": "/Users/shantmanoukian/Tomodachi-Life-Data-Extractor/SaveFile/savedataArc-1.txt",
+  "save_file_path": "SaveFile/savedataArc-1.txt",
   "save_file_size": 1985688,
   "mii_index": 38,
   "profile": {
     "nickname": "Kirkmeh",
     "firstname": "Conner",
     "lastname": "Kirkman",
+    "pronunciation_nickname": "Kirkmeh",
+    "pronunciation_firstname": "Conner",
+    "pronunciation_lastname": "Kirkman",
     "creator": "Shant",
-    "favorite_color": 43,
+    "gender": 0,
+    "favorite_color": 10,
+    "favorite_color_name": "White",
+    "sharing": 0,
+    "copying": 0,
     "relation_to_you": 0,
-    "grow_kid": 0
+    "grow_kid": 0,
+    "mii_sysid": "E8F5D35E",
+    "tomodachi_life_mii_sysid": "E8F5D35E",
+    "origin_island": 174,
+    "actual_island": 174
+  },
+  "status": {
+    "level": 0,
+    "experience": 0,
+    "hair_color": 1,
+    "pampered_ranking": 0,
+    "splurge_ranking": 2950,
+    "catchphrases": {
+      "catchphrase": "",
+      "happy_phrase": "",
+      "sad_phrase": "",
+      "mad_phrase": "",
+      "worried_phrase": ""
+    },
+    "gestures": {
+      "gesture_1": 0,
+      "gesture_2": 0,
+      "gesture_3": 128,
+      "gesture_4": 239,
+      "gesture_5": 36
+    }
   },
   "personality": {
     "traits": {
@@ -631,6 +663,44 @@
     }
   },
   "personality_type": "Outgoing Charmer",
-  "total_size": 8656,
+  "total_size": 9717,
+  "food_preferences": {
+    "all_time_favorites": {
+      "favorite_1": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_2": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "current_favorites": {
+      "favorite_1": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_2": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_3": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "worst_foods": {
+      "worst_1": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "worst_2": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "checktummy": 0,
+    "fullness": 0
+  },
   "relationship_count": 100
 }

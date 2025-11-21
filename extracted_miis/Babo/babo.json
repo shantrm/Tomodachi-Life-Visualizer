@@ -1,16 +1,48 @@
 {
   "region": "EU",
-  "save_file_path": "/Users/shantmanoukian/Tomodachi-Life-Data-Extractor/SaveFile/savedataArc-1.txt",
+  "save_file_path": "SaveFile/savedataArc-1.txt",
   "save_file_size": 1985688,
   "mii_index": 6,
   "profile": {
     "nickname": "Babo",
     "firstname": "Osep",
     "lastname": "Sarafian",
+    "pronunciation_nickname": "Bah bo",
+    "pronunciation_firstname": "Oh sep",
+    "pronunciation_lastname": "Suh rah ffeein",
     "creator": "Shant",
-    "favorite_color": 39,
+    "gender": 0,
+    "favorite_color": 9,
+    "favorite_color_name": "Brown",
+    "sharing": 18,
+    "copying": 0,
     "relation_to_you": 6,
-    "grow_kid": 0
+    "grow_kid": 0,
+    "mii_sysid": "E8F5D35E",
+    "tomodachi_life_mii_sysid": "E8F5D35E",
+    "origin_island": 174,
+    "actual_island": 174
+  },
+  "status": {
+    "level": 0,
+    "experience": 32,
+    "hair_color": 1,
+    "pampered_ranking": 6357096,
+    "splurge_ranking": 83990,
+    "catchphrases": {
+      "catchphrase": "I hate America!",
+      "happy_phrase": "",
+      "sad_phrase": "",
+      "mad_phrase": "",
+      "worried_phrase": ""
+    },
+    "gestures": {
+      "gesture_1": 0,
+      "gesture_2": 0,
+      "gesture_3": 128,
+      "gesture_4": 239,
+      "gesture_5": 36
+    }
   },
   "personality": {
     "traits": {
@@ -631,6 +663,44 @@
     }
   },
   "personality_type": "Confident Designer",
-  "total_size": 8619,
+  "total_size": 9714,
+  "food_preferences": {
+    "all_time_favorites": {
+      "favorite_1": {
+        "id": 23,
+        "name": "Orange juice"
+      },
+      "favorite_2": {
+        "id": 24,
+        "name": "Coffee"
+      }
+    },
+    "current_favorites": {
+      "favorite_1": {
+        "id": 3,
+        "name": "Prawn pilaf"
+      },
+      "favorite_2": {
+        "id": 65535,
+        "name": "Nothing"
+      },
+      "favorite_3": {
+        "id": 65535,
+        "name": "Nothing"
+      }
+    },
+    "worst_foods": {
+      "worst_1": {
+        "id": 4,
+        "name": "Green tea"
+      },
+      "worst_2": {
+        "id": 11,
+        "name": "Spaghetti carbonara"
+      }
+    },
+    "checktummy": 0,
+    "fullness": 0
+  },
   "relationship_count": 100
 }
