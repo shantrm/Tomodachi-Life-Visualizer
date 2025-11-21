@@ -141,8 +141,8 @@
     },
     "13": {
       "value": 120,
-      "type": 4,
-      "type_name": "Spouse",
+      "type": 0,
+      "type_name": "Unknown",
       "target_name": "Ishu"
     },
     "14": {
