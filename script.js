@@ -106,6 +106,7 @@ const statsState = {
 
 const miiDetailCache = new Map();
 let statsDetailPromise = null;
+let currentMiiFolderName = null;
 
 document.addEventListener('DOMContentLoaded', function () {
     const tabButtons = document.querySelectorAll('.tab-button');
@@ -189,6 +190,14 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.remove('active');
+        }
+    });
+
+    // Download button functionality
+    const downloadBtn = document.getElementById('download-mii-btn');
+    downloadBtn.addEventListener('click', () => {
+        if (currentMiiFolderName) {
+            downloadMiiFolder(currentMiiFolderName);
         }
     });
 });
@@ -1216,6 +1225,7 @@ async function showMiiDetail(mii) {
         const modal = document.getElementById('mii-detail-modal');
 
         const folderName = mii.filename.split('/')[0];
+        currentMiiFolderName = folderName;
         const faceImagePath = basePath ? `${basePath}/extracted_miis/${folderName}/face.png` : `/extracted_miis/${folderName}/face.png`;
         const bodyImagePath = basePath ? `${basePath}/extracted_miis/${folderName}/body.png` : `/extracted_miis/${folderName}/body.png`;
 
@@ -1942,5 +1952,56 @@ function renderChordDiagram(relationshipData, miisData, container) {
         .style('font-size', '12px')
         .style('fill', '#000')
         .style('font-weight', '400');
+}
+
+// Download Mii folder as zip
+async function downloadMiiFolder(folderName) {
+    try {
+        const basePath = getBasePath();
+        const folderPath = basePath ? `${basePath}/extracted_miis/${folderName}` : `/extracted_miis/${folderName}`;
+
+        // Create a new JSZip instance
+        const zip = new JSZip();
+
+        // List of files to download (common files in each Mii folder)
+        const files = [
+            { name: `${folderName.toLowerCase()}.json`, type: 'application/json' },
+            { name: `${folderName.toLowerCase()}.mnms`, type: 'application/octet-stream' },
+            { name: 'face.png', type: 'image/png' },
+            { name: 'body.png', type: 'image/png' }
+        ];
+
+        // Fetch and add each file to the zip
+        for (const file of files) {
+            try {
+                const response = await fetch(`${folderPath}/${file.name}`);
+                if (response.ok) {
+                    const blob = await response.blob();
+                    zip.file(file.name, blob);
+                } else {
+                    console.warn(`File not found: ${file.name}`);
+                }
+            } catch (error) {
+                console.error(`Error fetching ${file.name}:`, error);
+            }
+        }
+
+        // Generate the zip file
+        const content = await zip.generateAsync({ type: 'blob' });
+
+        // Create a download link and trigger download
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(content);
+        link.download = `${folderName}.zip`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Clean up the URL object
+        URL.revokeObjectURL(link.href);
+    } catch (error) {
+        console.error('Error downloading Mii folder:', error);
+        alert('Failed to download Mii folder. Please try again.');
+    }
 }
 

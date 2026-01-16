@@ -501,6 +501,37 @@ body {
     border: 1px solid #000000;
 }
 
+.download-btn {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: #4caf50;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.download-btn:hover {
+    background-color: #45a049;
+}
+
+.download-btn:active {
+    background-color: #3d8b40;
+}
+
+.download-icon {
+    width: 16px;
+    height: 16px;
+}
+
 .close {
     position: absolute;
     right: 20px;
